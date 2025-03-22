@@ -1,0 +1,31 @@
+{% extends 'todo/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2 class="card-title text-center mb-4">
+        {% if action %}{{ action }}{% else %}Create{% endif %} Task
+    </h2>
+    
+    <form method="post" class="task-form">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {{ form|crispy }}
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+                {% if action %}{{ action }}{% else %}Create{% endif %}
+            </button>
+            <a href="{% url 'task_list' %}" class="btn btn-outline-secondary btn-lg">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}
